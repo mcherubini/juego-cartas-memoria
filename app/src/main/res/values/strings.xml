@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ProyectoJuegoParejas</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="jugar">Jugar</string>
+    <string name="puntuaciones">Puntuaciones</string>
+    <string name="opciones">Opciones</string>
+    <string name="salir">Salir</string>
+    <string name="facil">Facil</string>
+    <string name="normal">Normal</string>
+    <string name="dificil">Dificil</string>
+    <string name="tu_puntuacion">Tu puntuación:</string>
+    <string name="puntuacion_contrincante">Puntuación contricante:</string>
+    <string name="victoria">Has ganado</string>
+    <string name="derrota">Has perdido</string>
+    <string name="empate">Has empatado</string>
+</resources>

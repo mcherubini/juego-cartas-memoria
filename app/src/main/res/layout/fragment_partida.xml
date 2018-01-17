@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.example.michele.proyectojuegoparejas.FragmentPartida">
+
+
+     <TextView
+         android:id="@+id/score_jugador"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/tu_puntuacion" />
+
+     <TextView
+         android:id="@+id/score_ia"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/puntuacion_contrincante" />
+
+     <GridLayout
+         android:id="@+id/tablero"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+     </GridLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,71 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.michele.proyectojuegoparejas.FragmentMenu">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_jugar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="35dp"
+            android:paddingLeft="55dp"
+            android:paddingRight="55dp"
+            android:paddingTop="35dp"
+            android:text="@string/jugar"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            />
+
+        <Button
+            android:id="@+id/btn_puntuaciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:paddingBottom="35dp"
+            android:paddingTop="35dp"
+            android:text="@string/puntuaciones" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"/>
+
+        <Button
+            android:id="@+id/btn_opciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="45dp"
+            android:paddingRight="45dp"
+            android:paddingBottom="35dp"
+            android:paddingTop="35dp"
+            android:text="@string/opciones" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"/>
+
+        <Button
+            android:id="@+id/btn_salir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp"
+            android:paddingBottom="35dp"
+            android:paddingTop="35dp"
+            android:text="@string/salir" />
+
+    </LinearLayout>
+
+</FrameLayout>

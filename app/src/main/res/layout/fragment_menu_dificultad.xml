@@ -1,0 +1,59 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.michele.proyectojuegoparejas.FragmentMenuDificultad">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_facil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="cargarPartida"
+            android:paddingBottom="35dp"
+            android:paddingLeft="45dp"
+            android:paddingRight="45dp"
+            android:paddingTop="35dp"
+            android:text="@string/facil" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        />
+
+        <Button
+            android:id="@+id/btn_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="cargarPartida"
+            android:paddingBottom="35dp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="35dp"
+            android:text="@string/normal" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"/>
+
+        <Button
+            android:id="@+id/btn_dificil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="cargarPartida"
+            android:paddingBottom="35dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingTop="35dp"
+            android:text="@string/dificil" />
+
+    </LinearLayout>
+
+</FrameLayout>
