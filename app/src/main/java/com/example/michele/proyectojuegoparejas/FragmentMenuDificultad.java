@@ -53,7 +53,7 @@ public class FragmentMenuDificultad extends Fragment implements View.OnClickList
 
         }
         startActivity(i);
-        getActivity().finish();
+
     }
 
     @Override

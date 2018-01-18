@@ -42,6 +42,7 @@ public class FragmentMenu extends Fragment{
             @Override
             public void onClick(View view) {
                 getActivity().finish();
+                System.exit(0);
             }
         });
 
@@ -54,7 +55,7 @@ public class FragmentMenu extends Fragment{
 
         Intent i = new Intent(getContext(),ActivityDificultad.class);
         startActivity(i);
-        getActivity().finish();
+
 
 
     }

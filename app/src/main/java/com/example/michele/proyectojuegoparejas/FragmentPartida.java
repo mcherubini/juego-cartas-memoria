@@ -3,6 +3,7 @@ package com.example.michele.proyectojuegoparejas;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -23,7 +24,7 @@ import java.util.Arrays;
 public class FragmentPartida extends Fragment implements View.OnClickListener{
 
     private final int COLUMNAS = 8;
-    private final int PUNTOS = 10;
+    private final int PUNTOS = 10;//puntos que se suman cada vez que hay un acierto.
     private int filas;
     private int dificultad;
     private int scoreJugador = 0;
@@ -36,6 +37,8 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
     private String textoBaseIA;
     private TextView scoreTextJugador;
     private TextView scoreTextIA;
+    private MediaPlayer mediaPlayer = null;
+    private Thread hiloMusica = null;
 
     public FragmentPartida() {
         // Required empty public constructor
@@ -88,6 +91,24 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
         generarTablero(idsImagenes);
 
+        /*if(hiloMusica == null){
+            hiloMusica = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mediaPlayer = MediaPlayer.create(getContext(),R.raw.ljones_mango_kimono);
+                    mediaPlayer.start();
+                    mediaPlayer.setLooping(true);
+                }
+            });
+            hiloMusica.start();
+        }*/
+
+        if(mediaPlayer == null){
+            mediaPlayer = MediaPlayer.create(getContext(),R.raw.ljones_mango_kimono);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
+        }
+
         return xmlPartida;//devolvemos la vista del xml asociado al fragment
     }//onCreateView
 
@@ -132,10 +153,12 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 toast.show();
             }
         });
-                //detiene el hilo despues de mostrar el toast para volver despues a la pantalla principal
-                SystemClock.sleep(2500);
-                startActivity(new Intent(getContext(),MainActivity.class));
-                getActivity().finish();
+        mediaPlayer.release();
+        mediaPlayer = null;
+        //detiene el hilo despues de mostrar el toast para volver despues a la pantalla principal
+        SystemClock.sleep(2500);
+        startActivity(new Intent(getContext(),MainActivity.class));
+        getActivity().finish();
 
     }
 
