@@ -1,32 +1,21 @@
 package com.example.michele.proyectojuegoparejas;
 
-
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Random;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,17 +23,15 @@ import java.util.Random;
 public class FragmentPartida extends Fragment implements View.OnClickListener{
 
     private final int COLUMNAS = 8;
+    private final int PUNTOS = 10;
     private int filas;
     private int dificultad;
-    private LinearLayout xmlPartida;
-    private GridLayout gridLayout;
-    private final int PUNTOS = 10;
-    private int[] idsImagenes;
-    private int[] imagenesPartida;
-    private Partida partida;
-    private boolean hiloEspera = false;
     private int scoreJugador = 0;
     private int scoreIA = 0;
+    private boolean hiloEspera = false;
+    private LinearLayout xmlPartida;
+    private GridLayout gridLayout;
+    private Partida partida;
     private String textoBaseJugador;
     private String textoBaseIA;
     private TextView scoreTextJugador;
@@ -74,15 +61,13 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
         gridLayout.setRowCount(filas);
 
         partida = new Partida(gridLayout,dificultad);
-        /*final R.drawable drawableResources = new R.drawable();
-        final Class<R.drawable> c = R.drawable.class;
-        final Field[] fields = c.getDeclaredFields();*/
 
-        idsImagenes = new int[50];
+        int[] idsImagenes = new int[50];//indice es total de imagenes tablero en carpeta drawable
         Log.d("pene", "antes del for ");
 
         for (int i = 1, max = idsImagenes.length; i <= max; i++) {
-
+            /*se cargan los ids de la carpeta drawable en el array empieza contando desde uno
+            * porque la primera imagen esta etiquetada como 001 */
             Log.d("mensaje", "despues del for ");
             int resourceId;
             String nombreImagen = "";
@@ -96,16 +81,14 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 resourceId = getContext().getResources().getIdentifier(nombreImagen, "drawable",
                         getContext().getApplicationContext().getPackageName());//recuperamos el id de cada imagen
                 Log.d("mensaje7", "id imagen: " + resourceId + "" +nombreImagen);
-                //Log.d("dificultad", Integer.toString(dificultad));
 
             idsImagenes[i-1] = resourceId;
 
         }//for
 
-        generarInfoTablero();
-        colocarCasillas();
+        generarTablero(idsImagenes);
 
-        return xmlPartida;
+        return xmlPartida;//devolvemos la vista del xml asociado al fragment
     }//onCreateView
 
     @Override
@@ -113,9 +96,9 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
        super.onCreate(savedInstanceState);
 
         Intent intent = getActivity().getIntent();
-        dificultad = intent.getIntExtra("dificultad",2);
+        dificultad = intent.getIntExtra("dificultad",2);//dificultad es normal si no tiene valor
 
-        switch (dificultad){
+        switch (dificultad){//segun la dificultad se establece las filas que tendra el tablero
             case 1:
                 filas = 1;
                 break;
@@ -127,11 +110,12 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 break;
         }
 
-        //Log.d("prueba2","Hola " + Integer.toString(R.drawable.imagen_tablero050));
     }// onCreate
 
+    private void resultadoPartida(){//llamado cuando se acaba la partida
 
-    private void resultadoPartida(){
+        /*Como es llamado desde el onClick que se encuentra ya en otro hilo
+        * por eso se llama a runOnUiThread para que muestre el toast en el hilo principal*/
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -148,27 +132,24 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 toast.show();
             }
         });
-
-
+                //detiene el hilo despues de mostrar el toast para volver despues a la pantalla principal
                 SystemClock.sleep(2500);
                 startActivity(new Intent(getContext(),MainActivity.class));
 
-
-
     }
 
-    private void generarInfoTablero(){
+    private void generarTablero(int[] idsImagenes){
 
-        /*for(int i = 0; i < 50;i++){
-            Log.d("mensaje10"," " + idsImagenes[i]);
-        }*/
+        //las imagenes de partida sera el numero de columnas * el numero de filas
+        int[] imagenesPartida = new int[COLUMNAS*filas];//ids de imagenes de la partida actual
 
-        imagenesPartida = new int[COLUMNAS*filas];
         Log.d("mensaje1","total de casillas:" + imagenesPartida.length + "totalImg" + idsImagenes.length);
-        for(int i = 0; i < imagenesPartida.length;i += 2){
-            boolean casillaAgregada = false;
 
-            while (!casillaAgregada){
+        /*El contador se incrementa en dos porque en cada vuelta añade dos imagenes iguales*/
+        for(int i = 0; i < imagenesPartida.length;i += 2){
+            boolean imagenAgregada = false;
+
+            while (!imagenAgregada){
                 //Log.d("mensaje2","entra al while i vale:" + i);
                 int posicionImagen =  (int) (Math.random() * (double) idsImagenes.length);
                 //Log.d("mensaje5","indice aleatorio vale:" + posicionImagen);
@@ -177,6 +158,9 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 for(int j = 0; j < imagenesPartida.length;j++){//comprueba si imagen ya existe en array de partida
                     Log.d("mensaje3","entra al for anidado vale:" + j);
 
+                    /*compara los ids de todas las imagenes con los que ya han sido agregados
+                    * a la partida para que no agregue una imagen ya existente si la posicion generada
+                    * de manera aleatoria no es valida*/
                     if(idsImagenes[posicionImagen] == imagenesPartida[j]){
                         yaAgregado = true;
                         Log.d("mensaje4","idImagen vale" + idsImagenes[posicionImagen] + " y el de partida vale " +
@@ -188,20 +172,24 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                     Log.d("mensaje1"+i,"Se agrega imagen al indice" + i);
                     imagenesPartida[i] = idsImagenes[posicionImagen];
                     imagenesPartida[i+1] = idsImagenes[posicionImagen];
-                    casillaAgregada = true;
+                    imagenAgregada = true;
                 }
 
             }//while
         }//for
+
+        colocarCasillas(imagenesPartida);
     }//generar info tablero
 
-    private void colocarCasillas(){
+    private void colocarCasillas(int[] imagenesPartida){
 
         boolean yaColocado;
         boolean yaExiste;
 
+        //el array contiene la posicion en la que se va a colocar cada imagen
         int[] posicionCasillas = new int[imagenesPartida.length];
 
+        //se rellena con -1 para que no haya problemas con la posicion 0
         Arrays.fill(posicionCasillas,-1);
 
         for(int i = 0; i < imagenesPartida.length;i++){
@@ -209,30 +197,45 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
             yaColocado = false;
 
             while(!yaColocado){
+                /*genera un numero aleatorio que indica la posicion de la imagen, es decir
+                * si la primera posicion de este array tiene un 4 va a agregar en la primera
+                * posicion del grid la cuarta imagen y asi con todas.*/
 
                 int posicion = (int) (Math.random() * (double) imagenesPartida.length);
                 yaExiste = false;
 
                 for(int k = 0; k < posicionCasillas.length;k++){
-
+                    //comprueba si la posicion generada ya ha sido agregada anteriormente
                     if(posicionCasillas[k] == posicion){
                         yaExiste = true;
                     }
                 }
 
                 if(!yaExiste){
+                    /*sino ha sido agregada la posicion generada, entonces agrega la imagen de esa
+                    * posicion al tablero*/
+
                     posicionCasillas[i] = posicion;
+
+                    //obtenemos los parametros para poder modificar las imagenes
                     GridLayout.LayoutParams params = new GridLayout.LayoutParams();
 
                     ImageView imagen = new ImageView(getContext());
+                    //se pone una imagen que representa una carta boca abajo
                     imagen.setImageResource(R.drawable.reverso_carta);
                     imagen.setOnClickListener(this);
                     imagen.setLayoutParams(params);
                     imagen.getLayoutParams().height = 200;
                     imagen.getLayoutParams().width = 200;
+                    /*el objeto casilla se agrega como tag a cada imageview del tablero, este
+                    * contiene la información relacionada con la imagen que se supone que hay
+                    * en esa posicion, asi como en que posicion del grid se encuentra, teniendo
+                    * en cuenta que estamos utilizando el bucle for para identifcar cada casilla
+                    * la posicion de la fila 2 y columna 4 por ejemplo seria 12*/
                     Casilla casilla = new Casilla(imagenesPartida[posicion],i);
                     imagen.setTag(casilla);
 
+                    /*anadimos un borde negro al imageview*/
                     GradientDrawable gw = new GradientDrawable();
                     gw.setShape(GradientDrawable.RECTANGLE);
                     gw.setStroke(2, Color.BLACK);
@@ -241,7 +244,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                     gridLayout.addView(imagen);
 
                     yaColocado = true;
-                }
+                }//if
             }//while
         }//for
     }
@@ -249,7 +252,11 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(final View view) {
 
-            if(!hiloEspera){
+        /*Se crea un segundo hilo ya que para mostrar la carta durante unos segundos y volver
+        * a mostrar la imagen de reverso se ha utilizado un sleep para detener el hilo antes de
+        * seguir ejecutando el resto del codigo, ya que android desaconseja detener el hilo principal*/
+
+            if(!hiloEspera){//si el evento es llamado pero el hilo esta detenido no crea uno nuevo
 
                     new Thread(new Runnable() {
                         @Override
@@ -257,13 +264,19 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
                             final Casilla casilla = (Casilla) view.getTag();
                             final ImageView imagen;
+                            /*se llama al metodo turno que comprueba en que estado
+                            * se encuentra el tablero cuando pulsa sobre una imagen del grid
+                            * cuando hay que modificar una imagen se llama al metodo post de la view
+                            * llamada ya que solo se puede cambiar una imagen desde el hilo principal
+                            * */
 
                             switch (partida.turno(view)){
+                                //si se selecciona una carta que ya esta levantada
                                 case 0:
-                                    Log.d("mensaje","carta ya levantada no valida");
+
                                     break;
 
-                                case 1://primer turno imagen no alzada
+                                case 1://primer paso del turno imagen no alzada
                                     imagen = (ImageView) view;
                                     imagen.post(new Runnable() {
                                         @Override
@@ -275,8 +288,10 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                                     Log.d("mensaje","primer turno se levanta carta");
                                     casilla.setEstaLevantada(true);
                                     break;
-                                case 2://segundo turno imagenes iguales
+                                case 2://segundo paso del turno imagenes iguales
                                     imagen = (ImageView) view;
+                                    /*Si las imagenes son iguales se muestran para el resto de la
+                                    * partida*/
 
                                     imagen.post(new Runnable() {
                                         @Override
@@ -290,6 +305,10 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
                                     Log.d("mensaje","segundo turno se levanta carta se quedan levantadas");
                                     casilla.setEstaLevantada(true);
+                                    /*al finalizar el movimiento del jugador comprueba si la
+                                    * partida ha finalizado, y si es asi muestra el resultado,
+                                    * sino llama al metodo ia que simula un contrincante, actuando
+                                    * como si fuese su turno*/
 
                                     if(partida.finPartida()){
                                         resultadoPartida();
@@ -301,7 +320,11 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                                         resultadoPartida();
                                     }
                                     break;
-                                case 3://segundo turno imagenes diferentes
+
+                                case 3://segundo paso del turno imagenes diferentes
+                                    /*Si las imagenes no son iguales se muestran durante unos segundos
+                                    * y se vuelve a colocar la imagen del reverso despues realiza
+                                    * las mismas comprobaciones que el paso 2*/
                                     final ImageView primeraCarta = partida.getImagenPrimeraCarta();
                                     imagen = (ImageView) view;
 
@@ -349,6 +372,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
     private void moverIA(){
 
+        /*El metodo ia devuelve las dos imagenes que ha seleccionado*/
         final View[] eleccionIA = partida.ia();
 
         final Casilla casilla1 = (Casilla) eleccionIA[0].getTag();
