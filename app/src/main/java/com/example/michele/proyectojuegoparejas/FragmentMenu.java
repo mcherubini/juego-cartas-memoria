@@ -1,15 +1,12 @@
 package com.example.michele.proyectojuegoparejas;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 
 /**
@@ -29,14 +26,25 @@ public class FragmentMenu extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_menu, container, false);
-        Button btnJugar = (Button) view.findViewById(R.id.btn_jugar);
+        ImageButton btnJugar = (ImageButton) view.findViewById(R.id.imagen_play);
+        ImageButton btnExit = (ImageButton) view.findViewById(R.id.imagen_exit);
+        ImageButton btnOpciones = (ImageButton) view.findViewById(R.id.imagen_opciones);
+        ImageButton btnScore = (ImageButton) view.findViewById(R.id.imagen_trofeo);
 
-        btnJugar.setOnClickListener(new View.OnClickListener() {
+        btnJugar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 cargarDificultad();
             }
         });
+
+        btnExit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
+
 
         return view;
     }
@@ -46,15 +54,8 @@ public class FragmentMenu extends Fragment{
 
         Intent i = new Intent(getContext(),ActivityDificultad.class);
         startActivity(i);
+        getActivity().finish();
 
-        /*FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        Fragment fragment = fragmentManager.findFragmentById(R.id.menu_principal);
-
-        fragmentTransaction.replace(R.id.prueba,fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();*/
 
     }
 

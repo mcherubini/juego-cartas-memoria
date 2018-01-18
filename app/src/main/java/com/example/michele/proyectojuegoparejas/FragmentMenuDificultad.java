@@ -42,16 +42,18 @@ public class FragmentMenuDificultad extends Fragment implements View.OnClickList
         if(v.equals(getActivity().findViewById(R.id.btn_facil))){
             Log.d("mensaje","pulsado facil");
             i.putExtra("dificultad",1);
-            startActivity(i);
+
         }else if(v.equals(getActivity().findViewById(R.id.btn_normal))){
             Log.d("mensaje","pulsado normal");
             i.putExtra("dificultad",2);
-            startActivity(i);
+
         }else if(v.equals(getActivity().findViewById(R.id.btn_dificil))){
             Log.d("mensaje","pulsado dificil");
             i.putExtra("dificultad",3);
-            startActivity(i);
+
         }
+        startActivity(i);
+        getActivity().finish();
     }
 
     @Override

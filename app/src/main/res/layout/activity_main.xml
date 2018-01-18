@@ -8,8 +8,8 @@
     tools:context="com.example.michele.proyectojuegoparejas.MainActivity">
 
     <fragment android:name="com.example.michele.proyectojuegoparejas.FragmentMenu"
-        android:layout_width="395dp"
-        android:layout_height="587dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/menu_principal"
         tools:layout="@layout/fragment_menu"/>
 

@@ -135,6 +135,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 //detiene el hilo despues de mostrar el toast para volver despues a la pantalla principal
                 SystemClock.sleep(2500);
                 startActivity(new Intent(getContext(),MainActivity.class));
+                getActivity().finish();
 
     }
 
