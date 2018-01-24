@@ -1,6 +1,7 @@
 package com.example.michele.proyectojuegoparejas;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -9,10 +10,13 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.app.AlertDialog;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +36,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
     private int scoreJugador = 0;
     private int scoreIA = 0;
     private boolean hiloEspera = false;
+    private String jugador;
     private LinearLayout xmlPartida;
     private GridLayout gridLayout;
     private Partida partida;
@@ -157,31 +162,60 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
         /*Al almacenar el resultado de la partida en la base de datos, el resultado pueden ser
         * tres posibles valores,0 si se pierde, 1 si se empata y 2 si se gana*/
 
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Nombre Jugador");
+
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        builder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                jugador = input.getText().toString();
+
+                /*getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {*/
+
+                        Toast toast;
+
+                        Log.d("mensaje","gwgwga");
+                        if(scoreIA == scoreJugador){
+                            toast = Toast.makeText(getContext(),getResources().getString(R.string.empate),Toast.LENGTH_LONG);
+                            insertar(db,scoreJugador,jugador,1);
+                        }else if(scoreIA > scoreJugador){
+                            insertar(db,scoreJugador,jugador,0);
+                            toast = Toast.makeText(getContext(),getResources().getString(R.string.derrota),Toast.LENGTH_LONG);
+                        }else{
+                            insertar(db,scoreJugador,jugador,2);
+                            toast = Toast.makeText(getContext(),getResources().getString(R.string.victoria),Toast.LENGTH_LONG);
+                        }
+                        toast.show();
+
+                    //}
+                //});
+
+
+
+                startActivity(new Intent(getContext(),MainActivity.class));
+                getActivity().finish();
+            }
+        });//onClickListener
+
+        builder.setView(input);
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast toast;
-                if(scoreIA == scoreJugador){
-                    toast = Toast.makeText(getContext(),getResources().getString(R.string.empate),Toast.LENGTH_LONG);
-                    insertar(db,scoreJugador,"miguel",1);
-                }else if(scoreIA > scoreJugador){
-                    insertar(db,scoreJugador,"miguel",0);
-                    toast = Toast.makeText(getContext(),getResources().getString(R.string.derrota),Toast.LENGTH_LONG);
-                }else{
-                    insertar(db,scoreJugador,"miguel",2);
-                    toast = Toast.makeText(getContext(),getResources().getString(R.string.victoria),Toast.LENGTH_LONG);
-                }
-                toast.show();
+                builder.show();
+
             }
         });
 
-        mediaPlayer.release();
-        mediaPlayer = null;//libera los recursos del objeto MediaPlayer
-
         //detiene el hilo despues de mostrar el toast para volver despues a la pantalla principal
-        SystemClock.sleep(2500);
-        startActivity(new Intent(getContext(),MainActivity.class));
-        getActivity().finish();
+        //SystemClock.sleep(2500);
+
 
     }
 

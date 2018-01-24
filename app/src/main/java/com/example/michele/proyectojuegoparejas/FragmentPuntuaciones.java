@@ -44,8 +44,9 @@ public class FragmentPuntuaciones extends Fragment {
                 FeedReaderContract.FeedEntry.COLUMN_NAME_RESULT
         };
 
-        /*String sortOrder =
-                FeedReaderContract.FeedEntry.COLUMN_NAME_SUBTITLE + " DESC";*/
+        String sortOrder =
+                FeedReaderContract.FeedEntry.COLUMN_NAME_SCORE + " DESC,"+
+                        FeedReaderContract.FeedEntry.COLUMN_NAME_RESULT + " DESC";
 
         Cursor cursor = db.query(
                 FeedReaderContract.FeedEntry.TABLE_NAME,                     // The table to query
@@ -54,7 +55,7 @@ public class FragmentPuntuaciones extends Fragment {
                 null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                null                                 // The sort order
+                sortOrder                                 // The sort order
         );
 
         AdaptadorCursor todoAdapter = new AdaptadorCursor(getActivity().getApplicationContext(), cursor);
