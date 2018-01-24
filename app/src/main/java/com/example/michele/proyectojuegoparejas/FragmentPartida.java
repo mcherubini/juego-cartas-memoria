@@ -1,6 +1,8 @@
 package com.example.michele.proyectojuegoparejas;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
@@ -133,10 +135,27 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
     }// onCreate
 
+    private long insertar(SQLiteDatabase db, int score, String jugador, int resultado){
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_SCORE, score);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_PLAYER, jugador);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_RESULT, resultado);
+
+        // Insert the new row, returning the primary key value of the new row
+        return db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
+    }//insertar
+
     private void resultadoPartida(){//llamado cuando se acaba la partida
 
         /*Como es llamado desde el onClick que se encuentra ya en otro hilo
         * por eso se llama a runOnUiThread para que muestre el toast en el hilo principal*/
+
+        FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(getActivity().getApplicationContext());
+        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        /*Al almacenar el resultado de la partida en la base de datos, el resultado pueden ser
+        * tres posibles valores,0 si se pierde, 1 si se empata y 2 si se gana*/
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -144,17 +163,21 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 Toast toast;
                 if(scoreIA == scoreJugador){
                     toast = Toast.makeText(getContext(),getResources().getString(R.string.empate),Toast.LENGTH_LONG);
-
+                    insertar(db,scoreJugador,"miguel",1);
                 }else if(scoreIA > scoreJugador){
+                    insertar(db,scoreJugador,"miguel",0);
                     toast = Toast.makeText(getContext(),getResources().getString(R.string.derrota),Toast.LENGTH_LONG);
                 }else{
+                    insertar(db,scoreJugador,"miguel",2);
                     toast = Toast.makeText(getContext(),getResources().getString(R.string.victoria),Toast.LENGTH_LONG);
                 }
                 toast.show();
             }
         });
+
         mediaPlayer.release();
-        mediaPlayer = null;
+        mediaPlayer = null;//libera los recursos del objeto MediaPlayer
+
         //detiene el hilo despues de mostrar el toast para volver despues a la pantalla principal
         SystemClock.sleep(2500);
         startActivity(new Intent(getContext(),MainActivity.class));

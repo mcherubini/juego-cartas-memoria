@@ -46,8 +46,20 @@ public class FragmentMenu extends Fragment{
             }
         });
 
+        btnScore.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                cargarPuntuaciones();
+            }
+        });
+
 
         return view;
+    }
+
+    public void cargarPuntuaciones(){
+        Intent i = new Intent(getContext(),ActivityPuntuaciones.class);
+        startActivity(i);
     }
 
 
