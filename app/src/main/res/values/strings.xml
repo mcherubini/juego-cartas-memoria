@@ -15,4 +15,7 @@
     <string name="victoria">Has ganado</string>
     <string name="derrota">Has perdido</string>
     <string name="empate">Has empatado</string>
+    <string name="jugador">Jugador</string>
+    <string name="score">Score</string>
+    <string name="nombre_jugador">Nombre Jugador</string>
 </resources>

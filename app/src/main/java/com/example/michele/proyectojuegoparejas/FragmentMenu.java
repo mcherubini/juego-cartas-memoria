@@ -28,7 +28,7 @@ public class FragmentMenu extends Fragment{
         view =  inflater.inflate(R.layout.fragment_menu, container, false);
         ImageButton btnJugar = (ImageButton) view.findViewById(R.id.imagen_play);
         ImageButton btnExit = (ImageButton) view.findViewById(R.id.imagen_exit);
-        ImageButton btnOpciones = (ImageButton) view.findViewById(R.id.imagen_opciones);
+        //ImageButton btnOpciones = (ImageButton) view.findViewById(R.id.imagen_opciones);
         ImageButton btnScore = (ImageButton) view.findViewById(R.id.imagen_trofeo);
 
         btnJugar.setOnClickListener(new View.OnClickListener(){

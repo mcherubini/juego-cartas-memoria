@@ -22,11 +22,11 @@
             android:background="@color/fondo_menu"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.03"
+            app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/trophy" />
 
         <ImageButton
@@ -63,7 +63,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <!-- <ImageButton
             android:id="@+id/imagen_opciones"
             android:layout_width="64dp"
             android:layout_height="64dp"
@@ -79,7 +79,8 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/settings_work_tool" />
+            app:srcCompat="@drawable/settings_work_tool" /> -->
+
     </android.support.constraint.ConstraintLayout>
 
     <!--<LinearLayout

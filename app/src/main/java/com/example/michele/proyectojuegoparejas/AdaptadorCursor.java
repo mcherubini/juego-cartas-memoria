@@ -1,6 +1,7 @@
 package com.example.michele.proyectojuegoparejas;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,11 @@ import android.widget.TextView;
 
 public class AdaptadorCursor extends CursorAdapter {
 
+    private Context context;
+
     public AdaptadorCursor(Context context, Cursor cursor) {
         super(context, cursor, 0);
+        this.context = context;
     }
 
     // The newView method is used to inflate a new view and return it,
@@ -43,8 +47,8 @@ public class AdaptadorCursor extends CursorAdapter {
         int resultado = cursor.getInt(3);
         // Populate fields with extracted properties
 
-        textoJugador.setText("Jugador: " + jugador);
-        textoScore.setText("Puntuacion:" + String.valueOf(score));
+        textoJugador.setText(context.getString(R.string.jugador) + ": " + jugador);
+        textoScore.setText(context.getString(R.string.score) +  ": " + String.valueOf(score));
 
         //0 perder 1 empate 2 victoria
         switch (resultado){

@@ -163,7 +163,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
         * tres posibles valores,0 si se pierde, 1 si se empata y 2 si se gana*/
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Nombre Jugador");
+        builder.setTitle(getResources().getString(R.string.nombre_jugador));
 
         final EditText input = new EditText(getContext());
         input.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -180,7 +180,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
                         Toast toast;
 
-                        Log.d("mensaje","gwgwga");
+
                         if(scoreIA == scoreJugador){
                             toast = Toast.makeText(getContext(),getResources().getString(R.string.empate),Toast.LENGTH_LONG);
                             insertar(db,scoreJugador,jugador,1);
