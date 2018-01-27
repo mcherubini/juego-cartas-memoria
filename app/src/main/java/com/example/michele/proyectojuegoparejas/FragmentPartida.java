@@ -98,18 +98,6 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
         generarTablero(idsImagenes);
 
-        /*if(hiloMusica == null){
-            hiloMusica = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    mediaPlayer = MediaPlayer.create(getContext(),R.raw.ljones_mango_kimono);
-                    mediaPlayer.start();
-                    mediaPlayer.setLooping(true);
-                }
-            });
-            hiloMusica.start();
-        }*/
-
         if(mediaPlayer == null){
             mediaPlayer = MediaPlayer.create(getContext(),R.raw.ljones_mango_kimono);
             mediaPlayer.setLooping(true);
@@ -177,9 +165,8 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 /*getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {*/
-
+                //modificado para que el resultado de  has hanado se muestre despues de pulsar el boton
                         Toast toast;
-
 
                         if(scoreIA == scoreJugador){
                             toast = Toast.makeText(getContext(),getResources().getString(R.string.empate),Toast.LENGTH_LONG);
@@ -191,12 +178,11 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                             insertar(db,scoreJugador,jugador,2);
                             toast = Toast.makeText(getContext(),getResources().getString(R.string.victoria),Toast.LENGTH_LONG);
                         }
+                        db.close();
                         toast.show();
 
                     //}
                 //});
-
-
 
                 startActivity(new Intent(getContext(),MainActivity.class));
                 getActivity().finish();

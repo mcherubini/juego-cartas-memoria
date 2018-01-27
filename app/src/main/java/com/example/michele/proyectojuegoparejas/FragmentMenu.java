@@ -1,5 +1,7 @@
 package com.example.michele.proyectojuegoparejas;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,12 +17,18 @@ import android.widget.ImageButton;
 public class FragmentMenu extends Fragment{
 
     private View view;
+    private ListenerMenuPartida callBack;
 
     public FragmentMenu() {
         // Required empty public constructor
     }
 
 
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        callBack = (ListenerMenuPartida) context;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,7 +42,7 @@ public class FragmentMenu extends Fragment{
         btnJugar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                cargarDificultad();
+                callBack.cargarDificultad();
             }
         });
 
@@ -46,7 +54,9 @@ public class FragmentMenu extends Fragment{
             }
         });
 
-        btnScore.setOnClickListener(new View.OnClickListener(){
+        //en vista para tablets se ha quitado el boton, por eso se realiza comprobacion
+        if(btnScore !=null)
+            btnScore.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 cargarPuntuaciones();
@@ -63,13 +73,14 @@ public class FragmentMenu extends Fragment{
     }
 
 
-    public void cargarDificultad(){
+    /*public void cargarDificultad(){
 
         Intent i = new Intent(getContext(),ActivityDificultad.class);
         startActivity(i);
 
+    }*/
 
-
+    public interface ListenerMenuPartida{
+        public void cargarDificultad();
     }
-
 }
