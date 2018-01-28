@@ -45,15 +45,37 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
     private TextView scoreTextJugador;
     private TextView scoreTextIA;
     private MediaPlayer mediaPlayer = null;
-    private Thread hiloMusica = null;
 
     public FragmentPartida() {
         // Required empty public constructor
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Log.d("sonido","ONCREATE");
+        super.onCreate(savedInstanceState);
+
+        Intent intent = getActivity().getIntent();
+        dificultad = intent.getIntExtra("dificultad",2);//dificultad es normal si no tiene valor
+
+        switch (dificultad){//segun la dificultad se establece las filas que tendra el tablero
+            case 1:
+                filas = 1;
+                break;
+            case 2:
+                filas = 2;
+                break;
+            case 3:
+                filas = 4;
+                break;
+        }
+
+    }// onCreate
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("sonido","ONCREATEVIEW");
         // Inflate the layout for this fragment
         xmlPartida = (LinearLayout) inflater.inflate(R.layout.fragment_partida, container, false);
 
@@ -102,31 +124,30 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
             mediaPlayer = MediaPlayer.create(getContext(),R.raw.ljones_mango_kimono);
             mediaPlayer.setLooping(true);
             mediaPlayer.start();
+            Log.d("audio","audio creado");
         }
 
         return xmlPartida;//devolvemos la vista del xml asociado al fragment
     }//onCreateView
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-       super.onCreate(savedInstanceState);
-
-        Intent intent = getActivity().getIntent();
-        dificultad = intent.getIntExtra("dificultad",2);//dificultad es normal si no tiene valor
-
-        switch (dificultad){//segun la dificultad se establece las filas que tendra el tablero
-            case 1:
-                filas = 1;
-                break;
-            case 2:
-                filas = 2;
-                break;
-            case 3:
-                filas = 4;
-                break;
+    public void onStart() {
+        super.onStart();
+        if( mediaPlayer != null && !mediaPlayer.isPlaying()){
+            mediaPlayer.start();
         }
+        Log.d("sonido","ONSTART");
+// add your code here which executes when the Fragment gets visible.
+    }
 
-    }// onCreate
+
+
+    @Override public void onPause(){
+        Log.d("sonido","ONPAUSE");
+        super.onPause();
+        if(mediaPlayer != null && mediaPlayer.isPlaying())
+            mediaPlayer.pause();
+    }
 
     private long insertar(SQLiteDatabase db, int score, String jugador, int resultado){
         // Create a new map of values, where column names are the keys
@@ -140,6 +161,10 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
     }//insertar
 
     private void resultadoPartida(){//llamado cuando se acaba la partida
+
+
+        mediaPlayer.release();
+        mediaPlayer = null;
 
         /*Como es llamado desde el onClick que se encuentra ya en otro hilo
         * por eso se llama a runOnUiThread para que muestre el toast en el hilo principal*/
@@ -199,11 +224,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
             }
         });
 
-        //detiene el hilo despues de mostrar el toast para volver despues a la pantalla principal
-        //SystemClock.sleep(2500);
-
-
-    }
+    }//resultado partida
 
     private void generarTablero(int[] idsImagenes){
 
@@ -292,8 +313,8 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                     imagen.setImageResource(R.drawable.reverso_carta);
                     imagen.setOnClickListener(this);
                     imagen.setLayoutParams(params);
-                    imagen.getLayoutParams().height = 200;
-                    imagen.getLayoutParams().width = 200;
+                    imagen.getLayoutParams().height = (int)getResources().getDimension(R.dimen.medidas_casilla);
+                    imagen.getLayoutParams().width = (int)getResources().getDimension(R.dimen.medidas_casilla);
                     /*el objeto casilla se agrega como tag a cada imageview del tablero, este
                     * contiene la información relacionada con la imagen que se supone que hay
                     * en esa posicion, asi como en que posicion del grid se encuentra, teniendo

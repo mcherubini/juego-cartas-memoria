@@ -13,13 +13,15 @@
          android:id="@+id/score_jugador"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:text="@string/tu_puntuacion" />
+         android:text="@string/tu_puntuacion"
+         android:textSize="@dimen/textos" />
 
      <TextView
          android:id="@+id/score_ia"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:text="@string/puntuacion_contrincante" />
+         android:text="@string/puntuacion_contrincante"
+         android:textSize="@dimen/textos" />
 
      <GridLayout
          android:id="@+id/tablero"

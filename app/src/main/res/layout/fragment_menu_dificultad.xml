@@ -12,47 +12,50 @@
 
         <Button
             android:id="@+id/btn_facil"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/anchura_botones"
             android:layout_height="wrap_content"
             android:onClick="cargarPartida"
-            android:paddingBottom="35dp"
-            android:paddingLeft="45dp"
-            android:paddingRight="45dp"
-            android:paddingTop="35dp"
-            android:text="@string/facil" />
+            android:paddingBottom="@dimen/padding_botones_altura"
+            android:paddingLeft="@dimen/padding_botones_lateral"
+            android:paddingRight="@dimen/padding_botones_lateral"
+            android:paddingTop="@dimen/padding_botones_altura"
+            android:text="@string/facil"
+            android:textSize="@dimen/textos" />
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/altura_separador"
         />
 
         <Button
             android:id="@+id/btn_normal"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/anchura_botones"
             android:layout_height="wrap_content"
             android:onClick="cargarPartida"
-            android:paddingBottom="35dp"
-            android:paddingLeft="35dp"
-            android:paddingRight="35dp"
-            android:paddingTop="35dp"
-            android:text="@string/normal" />
+            android:paddingBottom="@dimen/padding_botones_altura"
+            android:paddingLeft="@dimen/padding_botones_lateral"
+            android:paddingRight="@dimen/padding_botones_lateral"
+            android:paddingTop="@dimen/padding_botones_altura"
+            android:text="@string/normal"
+            android:textSize="@dimen/textos" />
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="@dimen/altura_separador"/>
 
         <Button
             android:id="@+id/btn_dificil"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/anchura_botones"
             android:layout_height="wrap_content"
             android:onClick="cargarPartida"
-            android:paddingBottom="35dp"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
-            android:paddingTop="35dp"
-            android:text="@string/dificil" />
+            android:paddingBottom="@dimen/padding_botones_altura"
+            android:paddingLeft="@dimen/padding_botones_lateral"
+            android:paddingRight="@dimen/padding_botones_lateral"
+            android:paddingTop="@dimen/padding_botones_altura"
+            android:text="@string/dificil"
+            android:textSize="@dimen/textos" />
 
     </LinearLayout>
 

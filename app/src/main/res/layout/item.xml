@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/imagenResultado"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/imagen_item"
+        android:layout_height="@dimen/imagen_item"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
 
@@ -16,18 +16,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.02"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/padding_layout_item">
 
         <TextView
             android:id="@+id/textoScore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             />
+            android:textSize="@dimen/texto_item" />
 
         <TextView
             android:id="@+id/textoUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             />
+            android:textSize="@dimen/texto_item" />
     </LinearLayout>
 </LinearLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="medidas_casilla">140dp</dimen>
+    <dimen name="textos">24sp</dimen>
+    <dimen name="altura_botones">120dp</dimen>
+    <dimen name="anchura_botones">240dp</dimen>
+    <dimen name="padding_botones_lateral">60dp</dimen>
+    <dimen name="padding_botones_altura">40dp</dimen>
+    <dimen name="altura_separador">35dp</dimen>
+    <dimen name="imagen_item">100dp</dimen>
+    <dimen name="texto_item">24sp</dimen>
+    <dimen name="padding_layout_item">25dp</dimen>
+</resources>
