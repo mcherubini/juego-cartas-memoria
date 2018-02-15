@@ -140,8 +140,6 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 // add your code here which executes when the Fragment gets visible.
     }
 
-
-
     @Override public void onPause(){
         Log.d("sonido","ONPAUSE");
         super.onPause();
@@ -161,7 +159,6 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
     }//insertar
 
     private void resultadoPartida(){//llamado cuando se acaba la partida
-
 
         mediaPlayer.release();
         mediaPlayer = null;
@@ -187,10 +184,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
             public void onClick(DialogInterface dialogInterface, int i) {
                 jugador = input.getText().toString();
 
-                /*getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {*/
-                //modificado para que el resultado de  has hanado se muestre despues de pulsar el boton
+                //modificado para que el resultado de  has ganado se muestre despues de pulsar el boton
                         Toast toast;
 
                         if(scoreIA == scoreJugador){
@@ -205,9 +199,6 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                         }
                         db.close();
                         toast.show();
-
-                    //}
-                //});
 
                 startActivity(new Intent(getContext(),MainActivity.class));
                 getActivity().finish();
@@ -335,7 +326,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 }//if
             }//while
         }//for
-    }
+    }//colocarCasillas
 
     @Override
     public void onClick(final View view) {
@@ -380,7 +371,9 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                                     imagen = (ImageView) view;
                                     /*Si las imagenes son iguales se muestran para el resto de la
                                     * partida*/
-
+                                    casilla.setEstaLevantada(true);
+                                    Log.d("casilla","Imagenes coinciden, casilla es" + casilla.isEstaLevantada()+
+                                    " posicion tablero: " + casilla.getPosicionTablero());
                                     imagen.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -392,7 +385,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                                     });
 
                                     Log.d("mensaje","segundo turno se levanta carta se quedan levantadas");
-                                    casilla.setEstaLevantada(true);
+
                                     /*al finalizar el movimiento del jugador comprueba si la
                                     * partida ha finalizado, y si es asi muestra el resultado,
                                     * sino llama al metodo ia que simula un contrincante, actuando
@@ -400,12 +393,14 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
                                     if(partida.finPartida()){
                                         resultadoPartida();
+                                        hiloEspera = true;
                                     }
 
                                     moverIA();
 
                                     if(partida.finPartida()){
                                         resultadoPartida();
+                                        hiloEspera = true;
                                     }
                                     break;
 
@@ -424,6 +419,8 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
                                         }
                                     });
+                                    casilla.setEstaLevantada(false);
+                                    partida.getPrimeraCarta().setEstaLevantada(false);
                                     hiloEspera = true;
                                     Log.d("mensaje","segundo turno se levanta carta no son iguales");
                                     SystemClock.sleep(1000);
@@ -433,14 +430,15 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                                         public void run() {
 
                                             imagen.setImageResource(R.drawable.reverso_carta);
-                                            casilla.setEstaLevantada(false);
-                                            partida.getPrimeraCarta().setEstaLevantada(false);
+                                            //casilla.setEstaLevantada(false);
+                                            //partida.getPrimeraCarta().setEstaLevantada(false);
                                             primeraCarta.setImageResource(R.drawable.reverso_carta);
+                                            hiloEspera = false;
 
                                         }
                                     });
                                     Log.d("mensaje","segundo turno se vuelven a esconder las cartas");
-                                    hiloEspera = false;
+
 
                                     moverIA();
                                     if(partida.finPartida()){
@@ -460,20 +458,28 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
     private void moverIA(){
 
+        Log.d("mensaje","llamado metodo moverIA");
         /*El metodo ia devuelve las dos imagenes que ha seleccionado*/
         final View[] eleccionIA = partida.ia();
-
         final Casilla casilla1 = (Casilla) eleccionIA[0].getTag();
         final Casilla casilla2 = (Casilla) eleccionIA[1].getTag();
 
+        Log.d("mensaje","La primera casilla levantada vale: " + casilla1.isEstaLevantada() +
+                " la segunda casilla levantada vale: " + casilla2.isEstaLevantada());
         if(casilla1.equals(casilla2)){//las dos cartas iguales
+            Log.d("mensaje","Casillas encontradas movimiento IA");
+
+            casilla1.setEstaLevantada(true);
+            casilla2.setEstaLevantada(true);
+            Log.d("mensaje","siendo ambas iguales,La primera casilla levantada vale ahora: "
+                    + casilla1.isEstaLevantada() +
+                    " la segunda casilla levantada vale: " + casilla2.isEstaLevantada());
+
             eleccionIA[0].post(new Runnable() {
                 @Override
                 public void run() {
                     ((ImageView) eleccionIA[0]).setImageResource(casilla1.getIdImagen());
                     ((ImageView) eleccionIA[1]).setImageResource(casilla2.getIdImagen());
-                    casilla1.setEstaLevantada(true);
-                    casilla2.setEstaLevantada(true);
                     scoreIA += PUNTOS;
                     scoreTextIA.setText(textoBaseIA + scoreIA);
                 }
@@ -482,12 +488,15 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
             eleccionIA[0].post(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d("mensaje","Casillas diferentes movimiento IA");
                     ((ImageView) eleccionIA[0]).setImageResource(casilla1.getIdImagen());
                     ((ImageView) eleccionIA[1]).setImageResource(casilla2.getIdImagen());
 
                 }
             });
 
+            casilla1.setEstaLevantada(false);
+            casilla2.setEstaLevantada(false);
             hiloEspera = true;
             SystemClock.sleep(1000);
 
@@ -496,8 +505,8 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 public void run() {
                     ((ImageView) eleccionIA[0]).setImageResource(R.drawable.reverso_carta);
                     ((ImageView) eleccionIA[1]).setImageResource(R.drawable.reverso_carta);
-                    casilla1.setEstaLevantada(false);
-                    casilla2.setEstaLevantada(false);
+                    //casilla1.setEstaLevantada(false);
+                    //casilla2.setEstaLevantada(false);
                 }
             });
             hiloEspera = false;

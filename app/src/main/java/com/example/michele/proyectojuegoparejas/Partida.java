@@ -29,7 +29,7 @@ public class Partida {
                 memoriaIA = new Casilla[2];
                 break;
             case 2:
-                memoriaIA = new Casilla[8];
+                memoriaIA = new Casilla[16];
                 break;
             case 3:
                 memoriaIA = new Casilla[16];
@@ -146,7 +146,7 @@ public class Partida {
                 }
             }
         }
-        //sino encuentra una concordancia ne la memoria genera una posicion aleatoria
+        //sino encuentra una concordancia en la memoria genera una posicion aleatoria
         View imagen1 = generarPosicion();
 
         Casilla casImagen1 = (Casilla) imagen1.getTag();
@@ -160,6 +160,8 @@ public class Partida {
 
                 casillasElegidas[0] = gridLayout.getChildAt(casilla.getPosicionTablero());
                 casillasElegidas[1] = gridLayout.getChildAt(casImagen1.getPosicionTablero());
+                Log.d("mensaje","Su posicion es:" + casilla.getPosicionTablero() + " y " +
+                casImagen1.getPosicionTablero());
                 casillaCoincide = true;
             }
         }
@@ -168,6 +170,8 @@ public class Partida {
             Log.d("mensaje","dos imagenes generadas aleatorias");
             casillasElegidas[0] = imagen1;
             casillasElegidas[1] = generarPosicion();
+            Log.d("mensaje","Su posicion es:" + ((Casilla) casillasElegidas[1].getTag()).getPosicionTablero() + " y " +
+                    casImagen1.getPosicionTablero());
         }
         return casillasElegidas;
     }//ia
@@ -188,6 +192,7 @@ public class Partida {
                 Log.d("mensaje","imagen generada valida, id:" + ((Casilla) imagen.getTag()).getIdImagen());
             }
         }
+        //se pone a true para que si tiene que generar otra imagen no genere la misma
         ((Casilla)  vistaImagen.getTag()).setEstaLevantada(true);
         return vistaImagen;
     }//generar posicion
@@ -200,14 +205,16 @@ public class Partida {
 
         for(int i = 0;  i < gridLayout.getChildCount();i++){
             casilla = (Casilla) gridLayout.getChildAt(i).getTag();
-
+            Log.d("casilla","La casilla " + i + "esta " + casilla.isEstaLevantada());
             if(partidaAcabada){
+
                 if(!casilla.isEstaLevantada()){
                     partidaAcabada = false;
+
                 }
             }
         }
-
+        Log.d("mensaje","partida acabada: " + partidaAcabada);
         return partidaAcabada;
     }//fin partida
 }

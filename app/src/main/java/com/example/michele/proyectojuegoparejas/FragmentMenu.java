@@ -50,7 +50,7 @@ public class FragmentMenu extends Fragment{
             @Override
             public void onClick(View view) {
                 getActivity().finish();
-                System.exit(0);
+                getActivity().moveTaskToBack(true);
             }
         });
 
