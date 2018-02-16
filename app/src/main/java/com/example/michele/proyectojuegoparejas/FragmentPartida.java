@@ -1,8 +1,10 @@
 package com.example.michele.proyectojuegoparejas;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -36,7 +38,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
     private int scoreJugador = 0;
     private int scoreIA = 0;
     private boolean hiloEspera = false;
-    private String jugador;
+    private String jugador;//nombre jugador introducido
     private LinearLayout xmlPartida;
     private GridLayout gridLayout;
     private Partida partida;
@@ -45,6 +47,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
     private TextView scoreTextJugador;
     private TextView scoreTextIA;
     private MediaPlayer mediaPlayer = null;
+    boolean isMusicaActiva;
 
     public FragmentPartida() {
         // Required empty public constructor
@@ -69,6 +72,11 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
                 filas = 4;
                 break;
         }
+
+        SharedPreferences sharedPref =
+                getActivity().getSharedPreferences(getString(R.string.fichero_opciones),
+                Context.MODE_PRIVATE);
+        isMusicaActiva = sharedPref.getBoolean(getString(R.string.is_musica_activa), true);
 
     }// onCreate
 
@@ -120,12 +128,15 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
         generarTablero(idsImagenes);
 
-        if(mediaPlayer == null){
-            mediaPlayer = MediaPlayer.create(getContext(),R.raw.ljones_mango_kimono);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
-            Log.d("audio","audio creado");
+        if(isMusicaActiva){
+            if(mediaPlayer == null){
+                mediaPlayer = MediaPlayer.create(getContext(),R.raw.ljones_mango_kimono);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.start();
+                Log.d("audio","audio creado");
+            }
         }
+
 
         return xmlPartida;//devolvemos la vista del xml asociado al fragment
     }//onCreateView
@@ -184,6 +195,9 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
             public void onClick(DialogInterface dialogInterface, int i) {
                 jugador = input.getText().toString();
 
+                if(jugador.trim().isEmpty()){
+                    jugador = "Uknown";
+                }
                 //modificado para que el resultado de  has ganado se muestre despues de pulsar el boton
                         Toast toast;
 

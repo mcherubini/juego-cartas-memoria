@@ -39,4 +39,17 @@ public class MainActivity extends AppCompatActivity implements FragmentMenu.List
             startActivity(i);
         }
     }
+
+    @Override
+    public void cargarOpciones() {
+        if(multiPanel){
+
+            FragmentOpciones fragment = new FragmentOpciones();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.contenedor_fragmentos_main, fragment).commit();
+        }else{
+            Intent i = new Intent(getApplicationContext(),ActivityOpciones.class);
+            startActivity(i);
+        }
+    }
 }

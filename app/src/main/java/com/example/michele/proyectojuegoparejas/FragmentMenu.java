@@ -36,7 +36,7 @@ public class FragmentMenu extends Fragment{
         view =  inflater.inflate(R.layout.fragment_menu, container, false);
         ImageButton btnJugar = (ImageButton) view.findViewById(R.id.imagen_play);
         ImageButton btnExit = (ImageButton) view.findViewById(R.id.imagen_exit);
-        //ImageButton btnOpciones = (ImageButton) view.findViewById(R.id.imagen_opciones);
+        ImageButton btnOpciones = (ImageButton) view.findViewById(R.id.imagen_opciones);
         ImageButton btnScore = (ImageButton) view.findViewById(R.id.imagen_trofeo);
 
         btnJugar.setOnClickListener(new View.OnClickListener(){
@@ -45,7 +45,12 @@ public class FragmentMenu extends Fragment{
                 callBack.cargarDificultad();
             }
         });
-
+        btnOpciones.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                callBack.cargarOpciones();
+            }
+        });
         btnExit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -73,14 +78,8 @@ public class FragmentMenu extends Fragment{
     }
 
 
-    /*public void cargarDificultad(){
-
-        Intent i = new Intent(getContext(),ActivityDificultad.class);
-        startActivity(i);
-
-    }*/
-
     public interface ListenerMenuPartida{
         public void cargarDificultad();
+        public void cargarOpciones();
     }
 }

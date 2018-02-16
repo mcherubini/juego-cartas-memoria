@@ -24,7 +24,8 @@
         <activity
             android:name=".ActivityPartida"
             android:screenOrientation="landscape" />
-        <activity android:name=".ActivityPuntuaciones"></activity>
+        <activity android:name=".ActivityPuntuaciones" />
+        <activity android:name=".ActivityOpciones"></activity>
     </application>
 
 </manifest>
