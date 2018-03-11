@@ -29,7 +29,7 @@ public class Partida {
                 memoriaIA = new Casilla[2];
                 break;
             case 2:
-                memoriaIA = new Casilla[16];
+                memoriaIA = new Casilla[8];
                 break;
             case 3:
                 memoriaIA = new Casilla[16];

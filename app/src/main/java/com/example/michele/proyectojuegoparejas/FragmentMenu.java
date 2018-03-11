@@ -54,7 +54,7 @@ public class FragmentMenu extends Fragment{
         btnExit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                getActivity().finish();
+                //getActivity().finish();
                 getActivity().moveTaskToBack(true);
             }
         });

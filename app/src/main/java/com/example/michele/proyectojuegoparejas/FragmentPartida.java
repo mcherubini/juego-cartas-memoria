@@ -131,6 +131,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
         if(isMusicaActiva){
             if(mediaPlayer == null){
                 mediaPlayer = MediaPlayer.create(getContext(),R.raw.ljones_mango_kimono);
+
                 mediaPlayer.setLooping(true);
                 mediaPlayer.start();
                 Log.d("audio","audio creado");
@@ -164,7 +165,7 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_SCORE, score);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_PLAYER, jugador);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_RESULT, resultado);
-
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_DIFICULT,dificultad);
         // Insert the new row, returning the primary key value of the new row
         return db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
     }//insertar

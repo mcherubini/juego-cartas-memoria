@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.michele.proyectojuegoparejas.FragmentOpciones">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <Switch
         android:id="@+id/activarMusica"
         android:layout_width="191dp"

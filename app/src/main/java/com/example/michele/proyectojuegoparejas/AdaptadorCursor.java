@@ -38,6 +38,7 @@ public class AdaptadorCursor extends CursorAdapter {
         // Find fields to populate in inflated template
         TextView textoJugador = (TextView) view.findViewById(R.id.textoUsuario);
         TextView textoScore = (TextView) view.findViewById(R.id.textoScore);
+        TextView textoDificultad= (TextView) view.findViewById(R.id.textoDificultad);
         ImageView imagen = (ImageView) view.findViewById(R.id.imagenResultado);
 
         // Extract properties from cursor
@@ -45,11 +46,12 @@ public class AdaptadorCursor extends CursorAdapter {
         int score = cursor.getInt(1);
         String jugador = cursor.getString(2);
         int resultado = cursor.getInt(3);
+        //int dificultad = cursor.getInt(4);
         // Populate fields with extracted properties
 
         textoJugador.setText(context.getString(R.string.jugador) + ": " + jugador);
         textoScore.setText(context.getString(R.string.score) +  ": " + String.valueOf(score));
-
+        textoDificultad.setText("");
         //0 perder 1 empate 2 victoria
         switch (resultado){
             case 0:

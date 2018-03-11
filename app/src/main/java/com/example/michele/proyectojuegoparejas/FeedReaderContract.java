@@ -17,6 +17,7 @@ public class FeedReaderContract {
         public static final String COLUMN_NAME_SCORE = "puntuacion";
         public static final String COLUMN_NAME_PLAYER = "jugador";
         public static final String COLUMN_NAME_RESULT = "resultado";
+        public static final String COLUMN_NAME_DIFICULT = "dificultad";
     }
 
 }

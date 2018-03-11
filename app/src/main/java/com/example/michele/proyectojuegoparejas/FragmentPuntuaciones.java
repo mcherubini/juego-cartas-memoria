@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class FragmentPuntuaciones extends Fragment {
 
         FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(getActivity().getApplicationContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
+        Log.d("DB","Version actual" + db.getVersion());
 // Define a projection that specifies which columns from the database
 // you will actually use after this query.
 
@@ -41,7 +42,8 @@ public class FragmentPuntuaciones extends Fragment {
                 FeedReaderContract.FeedEntry._ID,
                 FeedReaderContract.FeedEntry.COLUMN_NAME_SCORE,
                 FeedReaderContract.FeedEntry.COLUMN_NAME_PLAYER,
-                FeedReaderContract.FeedEntry.COLUMN_NAME_RESULT
+                FeedReaderContract.FeedEntry.COLUMN_NAME_RESULT,
+                FeedReaderContract.FeedEntry.COLUMN_NAME_DIFICULT
         };
 
         String sortOrder =

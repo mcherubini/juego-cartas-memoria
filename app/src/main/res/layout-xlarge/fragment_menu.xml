@@ -30,6 +30,24 @@
             app:srcCompat="@drawable/exit" />
 
         <ImageButton
+            android:id="@+id/imagen_trofeo"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/fondo_menu"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/trophy" />
+
+        <ImageButton
             android:id="@+id/imagen_play"
             android:layout_width="128dp"
             android:layout_height="128dp"
@@ -45,7 +63,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- <ImageButton
+        <ImageButton
             android:id="@+id/imagen_opciones"
             android:layout_width="64dp"
             android:layout_height="64dp"
@@ -61,7 +79,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/settings_work_tool" /> -->
+            app:srcCompat="@drawable/settings_work_tool" />
 
     </android.support.constraint.ConstraintLayout>
 
