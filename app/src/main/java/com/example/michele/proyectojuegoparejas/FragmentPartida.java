@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -46,7 +47,9 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
     private String textoBaseIA;
     private TextView scoreTextJugador;
     private TextView scoreTextIA;
+    private Chronometer cronometro = null;
     private MediaPlayer mediaPlayer = null;
+    private long intervaloPausa;
     boolean isMusicaActiva;
 
     public FragmentPartida() {
@@ -148,6 +151,27 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
         if( mediaPlayer != null && !mediaPlayer.isPlaying()){
             mediaPlayer.start();
         }
+        /*
+        * El cronometro utiliza como punto de partida(contador a 0) al llamar a start por primera vez el tiempo
+        * transcurrido desde que se ha iniciado el telefono en milisegundos, a ese tiempo lo llama base.
+        * cada vez que se utiliza setBase vuelve a asignar como punto partida el elapsedrealtime actual.
+        * Como el reloj sigue contando internamente aunque la app se detenga, si queremos reanudar
+        * el reloj al mismo punto despues de que se lo detuviesemos hay que almacenar el tiempo
+        * transcurrido desde que se establecio la base hasta que se pauso. y restarlo al nuevo
+        * tiempo base que se asigna.
+        * */
+        if(cronometro == null){
+            cronometro = (Chronometer) xmlPartida.findViewById(R.id.cronometro_partida);
+            cronometro.setBase(SystemClock.elapsedRealtime());
+            Log.d("reloj","reloj iniciado:" + SystemClock.elapsedRealtime());
+            cronometro.setFormat( getResources().getString(R.string.tiempo_partida) + ": %s");
+            cronometro.start();
+        }else{
+            Log.d("reloj","reloj reanudado" + intervaloPausa);
+            cronometro.setBase(SystemClock.elapsedRealtime() - intervaloPausa);
+            cronometro.start();
+        }
+
         Log.d("sonido","ONSTART");
 // add your code here which executes when the Fragment gets visible.
     }
@@ -155,25 +179,34 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
     @Override public void onPause(){
         Log.d("sonido","ONPAUSE");
         super.onPause();
+        cronometro.stop();
+        intervaloPausa = SystemClock.elapsedRealtime() - cronometro.getBase();
+        Log.d("reloj","reloj pausado:" + cronometro.getText().toString());
         if(mediaPlayer != null && mediaPlayer.isPlaying())
             mediaPlayer.pause();
+
     }
 
-    private long insertar(SQLiteDatabase db, int score, String jugador, int resultado){
+    private long insertar(SQLiteDatabase db, int score, String jugador, int resultado,String tiempo){
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_SCORE, score);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_PLAYER, jugador);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_RESULT, resultado);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_DIFICULT,dificultad);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_GAMETIME,tiempo);
         // Insert the new row, returning the primary key value of the new row
         return db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
     }//insertar
 
     private void resultadoPartida(){//llamado cuando se acaba la partida
+        cronometro.stop();
+        final String tiempoPartida = cronometro.getText().toString();
+        if(mediaPlayer != null){
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
 
-        mediaPlayer.release();
-        mediaPlayer = null;
 
         /*Como es llamado desde el onClick que se encuentra ya en otro hilo
         * por eso se llama a runOnUiThread para que muestre el toast en el hilo principal*/
@@ -204,12 +237,12 @@ public class FragmentPartida extends Fragment implements View.OnClickListener{
 
                         if(scoreIA == scoreJugador){
                             toast = Toast.makeText(getContext(),getResources().getString(R.string.empate),Toast.LENGTH_LONG);
-                            insertar(db,scoreJugador,jugador,1);
+                            insertar(db,scoreJugador,jugador,1,tiempoPartida);
                         }else if(scoreIA > scoreJugador){
-                            insertar(db,scoreJugador,jugador,0);
+                            insertar(db,scoreJugador,jugador,0,tiempoPartida);
                             toast = Toast.makeText(getContext(),getResources().getString(R.string.derrota),Toast.LENGTH_LONG);
                         }else{
-                            insertar(db,scoreJugador,jugador,2);
+                            insertar(db,scoreJugador,jugador,2,tiempoPartida);
                             toast = Toast.makeText(getContext(),getResources().getString(R.string.victoria),Toast.LENGTH_LONG);
                         }
                         db.close();

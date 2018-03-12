@@ -1,12 +1,48 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.michele.proyectojuegoparejas.FragmentPuntuaciones">
 
-    <ListView
-        android:id="@+id/listadoCasillas"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent" />
-</FrameLayout>
+        android:orientation="vertical"
+        android:background="@color/colorAccent"
+        tools:context="com.example.michele.proyectojuegoparejas.FragmentPuntuaciones">
+
+        <RadioGroup
+            android:id="@+id/grupo_filtro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccentLight"
+            android:textSize="@dimen/texto_item">
+            <RadioButton
+                android:id="@+id/filtro_facil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/facil"
+                android:textSize="@dimen/texto_item"/>
+            <RadioButton
+                android:id="@+id/filtro_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/normal"
+                android:textSize="@dimen/texto_item"/>
+            <RadioButton
+                android:id="@+id/filtro_dificil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dificil"
+                android:textSize="@dimen/texto_item"
+                />
+        </RadioGroup>
+
+
+        <ListView
+            android:id="@+id/listadoCasillas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent" />
+
+    </LinearLayout>
+
+
+

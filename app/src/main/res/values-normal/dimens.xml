@@ -10,4 +10,5 @@
     <dimen name="imagen_item">64dp</dimen>
     <dimen name="texto_item">14sp</dimen>
     <dimen name="padding_layout_item">10dp</dimen>
+    <dimen name="marging_cronometro">200dp</dimen>
 </resources>

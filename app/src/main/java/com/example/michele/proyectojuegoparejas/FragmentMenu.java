@@ -54,17 +54,16 @@ public class FragmentMenu extends Fragment{
         btnExit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //getActivity().finish();
+
                 getActivity().moveTaskToBack(true);
             }
         });
 
-        //en vista para tablets se ha quitado el boton, por eso se realiza comprobacion
-        if(btnScore !=null)
-            btnScore.setOnClickListener(new View.OnClickListener(){
+
+        btnScore.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                cargarPuntuaciones();
+                callBack.cargarPuntuaciones();
             }
         });
 
@@ -81,5 +80,6 @@ public class FragmentMenu extends Fragment{
     public interface ListenerMenuPartida{
         public void cargarDificultad();
         public void cargarOpciones();
+        public void cargarPuntuaciones();
     }
 }

@@ -39,6 +39,7 @@ public class AdaptadorCursor extends CursorAdapter {
         TextView textoJugador = (TextView) view.findViewById(R.id.textoUsuario);
         TextView textoScore = (TextView) view.findViewById(R.id.textoScore);
         TextView textoDificultad= (TextView) view.findViewById(R.id.textoDificultad);
+        TextView textoTiempo = (TextView) view.findViewById(R.id.textoTiempo);
         ImageView imagen = (ImageView) view.findViewById(R.id.imagenResultado);
 
         // Extract properties from cursor
@@ -46,12 +47,31 @@ public class AdaptadorCursor extends CursorAdapter {
         int score = cursor.getInt(1);
         String jugador = cursor.getString(2);
         int resultado = cursor.getInt(3);
-        //int dificultad = cursor.getInt(4);
+        int dificultad = cursor.getInt(4);
+        String tiempo = cursor.getString(5);
         // Populate fields with extracted properties
 
         textoJugador.setText(context.getString(R.string.jugador) + ": " + jugador);
         textoScore.setText(context.getString(R.string.score) +  ": " + String.valueOf(score));
-        textoDificultad.setText("");
+        textoTiempo.setText(tiempo);
+
+        switch (dificultad){
+            case 1:
+                textoDificultad.setText(context.getString(R.string.dificultad) + ": " +
+                        context.getString(R.string.facil));
+                break;
+            case 2:
+                textoDificultad.setText(context.getString(R.string.dificultad) + ": " +
+                        context.getString(R.string.normal));
+                break;
+            case 3:
+                textoDificultad.setText(context.getString(R.string.dificultad) + ": " +
+                        context.getString(R.string.dificil));
+                break;
+            default:
+
+                break;
+        }
         //0 perder 1 empate 2 victoria
         switch (resultado){
             case 0:

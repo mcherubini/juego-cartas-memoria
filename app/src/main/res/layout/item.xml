@@ -36,5 +36,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/texto_item" />
+
+        <TextView
+            android:id="@+id/textoTiempo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/texto_item"/>
     </LinearLayout>
 </LinearLayout>

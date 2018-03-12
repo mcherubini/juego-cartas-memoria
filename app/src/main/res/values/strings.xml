@@ -23,4 +23,6 @@
     <string name="no">No</string>
     <string name="is_musica_activa">is_musica_activa</string>
     <string name="fichero_opciones">com.example.michele.proyectojuegoparejas.fichero_opciones</string>
+    <string name="dificultad">Dificultad</string>
+    <string name="tiempo_partida">Tiempo partida</string>
 </resources>

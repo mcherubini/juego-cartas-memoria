@@ -52,4 +52,17 @@ public class MainActivity extends AppCompatActivity implements FragmentMenu.List
             startActivity(i);
         }
     }
+
+    @Override
+    public void cargarPuntuaciones() {
+        if(multiPanel){
+
+            FragmentPuntuaciones fragment = new FragmentPuntuaciones();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.contenedor_fragmentos_main, fragment).commit();
+        }else{
+            Intent i = new Intent(getApplicationContext(),ActivityPuntuaciones.class);
+            startActivity(i);
+        }
+    }
 }

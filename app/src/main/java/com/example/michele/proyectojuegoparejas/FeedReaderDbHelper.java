@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class FeedReaderDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "puntuaciones_juego_cartas.db";
 
     public FeedReaderDbHelper(Context context) {
@@ -22,11 +22,11 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
 
-        if(oldVersion < 2){
+
             db.execSQL(SQL_DELETE_ENTRIES);
             Log.d("DB","BASE DE DATOS ACTUALIZADA");
             onCreate(db);
-        }
+
 
 
 
@@ -37,17 +37,15 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    private static final String SQL_V2_ALTER =
-            "ALTER TABLE " + FeedReaderContract.FeedEntry.TABLE_NAME +
-            " ADD COLUMN " + FeedReaderContract.FeedEntry.COLUMN_NAME_DIFICULT + "INTEGER";
-
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FeedReaderContract.FeedEntry.TABLE_NAME + "(" +
                     FeedReaderContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
                     FeedReaderContract.FeedEntry.COLUMN_NAME_SCORE + " INTEGER," +
                     FeedReaderContract.FeedEntry.COLUMN_NAME_PLAYER + " TEXT," +
                     FeedReaderContract.FeedEntry.COLUMN_NAME_RESULT + " INTEGER," +
-                    FeedReaderContract.FeedEntry.COLUMN_NAME_DIFICULT +"INTEGER)";
+                    FeedReaderContract.FeedEntry.COLUMN_NAME_DIFICULT +" INTEGER,"+
+                    FeedReaderContract.FeedEntry.COLUMN_NAME_GAMETIME +" TEXT)"
+            ;
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + FeedReaderContract.FeedEntry.TABLE_NAME;
